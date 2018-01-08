@@ -2,14 +2,29 @@
 
 void GildedRose::updateNormalItem(Item& item)
 {
-  item.sellIn -= 1;
+  if (item.quality == 0)
+    return;
+
   item.quality -= 1;
+
+  if (item.sellIn <= 0)
+    item.quality -= 1;
+
+  item.sellIn -= 1;
+}
+
+void GildedRose::updateAgedBrie(Item& item)
+{
+  return;
 }
 
 void GildedRose::updateItem(Item& item)
 {
   if (item.name == "NORMAL ITEM") {
     updateNormalItem(item);
+    return;
+  } else if (item.name == "Aged Brie") {
+    updateAgedBrie(item);
     return;
   }
 
