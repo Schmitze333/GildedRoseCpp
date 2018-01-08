@@ -10,8 +10,8 @@ public:
   int initialSellIn{ 5 };
   int initialQuality{ 10 };
 
-  void NormalItemWithSellInAndQuality(const int sellIn, const int quality) {
-    gildedRose.addItem(Item("NORMAL ITEM", sellIn, quality));
+  void NormalItemWithSellInAndQuality() {
+    gildedRose.addItem(Item("NORMAL ITEM", initialSellIn, initialQuality));
   }
 
   void HasSellInDecreaseOf1() {
@@ -28,7 +28,7 @@ public:
 };
 
 TEST_F(NormalItem, BeforeSellDate) {
-  NormalItemWithSellInAndQuality(initialSellIn, initialQuality);
+  NormalItemWithSellInAndQuality();
 
   gildedRose.updateQuality();
 
@@ -37,25 +37,28 @@ TEST_F(NormalItem, BeforeSellDate) {
 }
 
 TEST_F(NormalItem, OnSellDate) {
-  NormalItemWithSellInAndQuality(0, initialQuality);
+  initialSellIn = 0;
+  NormalItemWithSellInAndQuality();
 
   gildedRose.updateQuality();
 
-  HasSellInOf( -1 );
+  HasSellInDecreaseOf1();
   HasQualityOf(initialQuality - 2);
 }
 
 TEST_F(NormalItem, AfterSellDate) {
-  NormalItemWithSellInAndQuality(-10, initialQuality);
+  initialSellIn = -10;
+  NormalItemWithSellInAndQuality();
 
   gildedRose.updateQuality();
 
-  HasSellInOf( -11 );
+  HasSellInDecreaseOf1();
   HasQualityOf(initialQuality - 2);
 }
 
 TEST_F(NormalItem, OfZeroQuality) {
-  NormalItemWithSellInAndQuality(initialSellIn, 0);
+  initialQuality = 0;
+  NormalItemWithSellInAndQuality();
 
   gildedRose.updateQuality();
 
