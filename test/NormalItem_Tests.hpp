@@ -191,3 +191,180 @@ TEST_F(Sulfuras, AfterSellDate) {
   HasNoSellInDecrease();
   HasQualityOf(initialQuality);
 }
+
+class BackstagePass : public ItemFixture
+{
+public:
+  void MakeBackstagePass() { MakeItem("Backstage passes to a TAFKAL80ETC concert"); }
+};
+
+TEST_F(BackstagePass, LongBeforeSellDate) {
+  initialSellIn = 11;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality + 1);
+}
+
+TEST_F(BackstagePass, LongBeforeSellDateAtMaxQuality) {
+  initialSellIn = 11;
+  initialQuality = 50;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality);
+}
+
+TEST_F(BackstagePass, MediumCloseToSellDateUpperBound) {
+  initialSellIn = 10;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality + 2);
+}
+
+TEST_F(BackstagePass, MediumCloseToSellDateAtMaxQualityUpperBound) {
+  initialSellIn = 10;
+  initialQuality = 50;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality);
+}
+
+TEST_F(BackstagePass, MediumCloseToSellDateLowerBound) {
+  initialSellIn = 6;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality + 2);
+}
+
+TEST_F(BackstagePass, MediumCloseToSellDateAtMaxQualityLowerBound) {
+  initialSellIn = 6;
+  initialQuality = 50;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality);
+}
+
+TEST_F(BackstagePass, VeryCloseToSellDateUpperBound) {
+  initialSellIn = 5;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality + 3);
+}
+
+TEST_F(BackstagePass, VeryCloseToSellDateAtMaxQualityUpperBound) {
+  initialSellIn = 5;
+  initialQuality = 50;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality);
+}
+
+TEST_F(BackstagePass, VeryCloseToSellDateLowerBound) {
+  initialSellIn = 1;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality + 3);
+}
+
+TEST_F(BackstagePass, VeryCloseToSellDateAtMaxQualityLowerBound) {
+  initialSellIn = 1;
+  initialQuality = 50;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality);
+}
+
+TEST_F(BackstagePass, OnSellDate) {
+  initialSellIn = 0;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(0);
+}
+
+TEST_F(BackstagePass, AfterSellDate) {
+  initialSellIn = -10;
+  MakeBackstagePass();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(0);
+}
+
+class ConjuredMana : public ItemFixture
+{
+public:
+  void MakeConjuredMana() { MakeItem("Conjured Mana Cake"); }
+};
+
+TEST_F(ConjuredMana, BeforeSellDate) {
+  MakeConjuredMana();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality - 2);
+}
+
+TEST_F(ConjuredMana, BeforeSellDateAtZeroQuality) {
+  initialQuality = 0;
+  MakeConjuredMana();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(0);
+}
+
+TEST_F(ConjuredMana, OnSellDate) {
+  initialSellIn = 0;
+  MakeConjuredMana();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality - 4);
+}
+
+TEST_F(ConjuredMana, OnSellDateAtZeroQuality) {
+  initialSellIn = 0;
+  initialQuality = 0;
+  MakeConjuredMana();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(0);
+}
