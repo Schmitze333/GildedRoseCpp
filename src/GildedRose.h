@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <memory>
 
 class Item
 {
@@ -8,24 +9,34 @@ class Item
   void updateSulfuras();
   void updateBackstagePass();
 
-  public:
-    std::string name;
-    int sellIn;
-    int quality;
-    Item(std::string name, int sellIn, int quality) : name(name), sellIn(sellIn), quality(quality) 
-    {}
+public:
+  static std::shared_ptr<Item> CreateItem(const std::string& name, const int sellIn, const int quality);
+  std::string name;
+  int sellIn;
+  int quality;
+  Item(std::string name, int sellIn, int quality) : name(name), sellIn(sellIn), quality(quality) 
+  {}
 
-    void update();
+  virtual void update();
+};
+
+class NormalItem : public Item
+{
+public:
+  NormalItem(const int sellIn, const int quality)
+    : Item("NORMAL ITEM", sellIn, quality) {}
+
+  void update() override;
 };
 
 class GildedRose
 {
-  std::vector<Item> _items;
+  std::vector<std::shared_ptr<Item> > _items;
 
-  public:
-    GildedRose() {}
-    
-    void updateQuality();
-    void addItem(const Item&& item) { _items.emplace_back(item); }
-    Item getItem(const int index) const { return _items.at(index); }
+public:
+  GildedRose() {}
+  
+  void updateQuality();
+  void addItem(std::shared_ptr<Item> item) { _items.emplace_back(item); }
+  std::shared_ptr<Item> getItem(const int index) const { return _items.at(index); }
 };

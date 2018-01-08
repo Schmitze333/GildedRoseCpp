@@ -11,7 +11,7 @@ public:
   int initialQuality{ 10 };
 
   void MakeItem(const std::string name) {
-    gildedRose.addItem(Item(name, initialSellIn, initialQuality));
+    gildedRose.addItem(Item::CreateItem(name, initialSellIn, initialQuality));
   }
 
   void HasSellInDecreaseOf1() {
@@ -19,24 +19,24 @@ public:
   }
 
   void HasSellInOf(const int newSellIn) {
-    ASSERT_THAT(gildedRose.getItem(0).sellIn, Eq(newSellIn));
+    ASSERT_THAT(gildedRose.getItem(0)->sellIn, Eq(newSellIn));
   }
 
   void HasQualityOf(const int newQuality) {
-    ASSERT_THAT(gildedRose.getItem(0).quality, Eq(newQuality));
+    ASSERT_THAT(gildedRose.getItem(0)->quality, Eq(newQuality));
   }
 
   void Subject() { gildedRose.updateQuality(); }
 };
 
-class NormalItem : public ItemFixture
+class NormalItemSpec : public ItemFixture
 {
 public:
-  void MakeNormalItem() { MakeItem("NORMAL ITEM"); }
+  void MakeNormalItemSpec() { MakeItem("NORMAL ITEM"); }
 };
 
-TEST_F(NormalItem, BeforeSellDate) {
-  MakeNormalItem();
+TEST_F(NormalItemSpec, BeforeSellDate) {
+  MakeNormalItemSpec();
 
   Subject();
 
@@ -44,9 +44,9 @@ TEST_F(NormalItem, BeforeSellDate) {
   HasQualityOf(initialQuality - 1);
 }
 
-TEST_F(NormalItem, OnSellDate) {
+TEST_F(NormalItemSpec, OnSellDate) {
   initialSellIn = 0;
-  MakeNormalItem();
+  MakeNormalItemSpec();
 
   Subject();
 
@@ -54,9 +54,9 @@ TEST_F(NormalItem, OnSellDate) {
   HasQualityOf(initialQuality - 2);
 }
 
-TEST_F(NormalItem, AfterSellDate) {
+TEST_F(NormalItemSpec, AfterSellDate) {
   initialSellIn = -10;
-  MakeNormalItem();
+  MakeNormalItemSpec();
 
   Subject();
 
@@ -64,23 +64,23 @@ TEST_F(NormalItem, AfterSellDate) {
   HasQualityOf(initialQuality - 2);
 }
 
-TEST_F(NormalItem, OfZeroQuality) {
+TEST_F(NormalItemSpec, OfZeroQuality) {
   initialQuality = 0;
-  MakeNormalItem();
+  MakeNormalItemSpec();
 
   Subject();
 
   HasQualityOf(0);
 }
 
-class AgedBrie : public ItemFixture
+class AgedBrieSpec : public ItemFixture
 {
 public:
-  void MakeAgedBrie() { MakeItem("Aged Brie"); }
+  void MakeAgedBrieSpec() { MakeItem("Aged Brie"); }
 };
 
-TEST_F(AgedBrie, BeforeSellDate) {
-  MakeAgedBrie();
+TEST_F(AgedBrieSpec, BeforeSellDate) {
+  MakeAgedBrieSpec();
 
   Subject();
 
@@ -88,9 +88,9 @@ TEST_F(AgedBrie, BeforeSellDate) {
   HasQualityOf(initialQuality + 1);
 }
 
-TEST_F(AgedBrie, BeforeSellDateWithMaxQuality) {
+TEST_F(AgedBrieSpec, BeforeSellDateWithMaxQuality) {
   initialQuality = 50;
-  MakeAgedBrie();
+  MakeAgedBrieSpec();
 
   Subject();
 
@@ -98,9 +98,9 @@ TEST_F(AgedBrie, BeforeSellDateWithMaxQuality) {
   HasQualityOf(initialQuality);
 }
 
-TEST_F(AgedBrie, OnSellDate) {
+TEST_F(AgedBrieSpec, OnSellDate) {
   initialSellIn = 0;
-  MakeAgedBrie();
+  MakeAgedBrieSpec();
 
   Subject();
 
@@ -108,10 +108,10 @@ TEST_F(AgedBrie, OnSellDate) {
   HasQualityOf(initialQuality + 2);
 }
 
-TEST_F(AgedBrie, OnSellDateNearMaxQuality) {
+TEST_F(AgedBrieSpec, OnSellDateNearMaxQuality) {
   initialSellIn = 0;
   initialQuality = 49;
-  MakeAgedBrie();
+  MakeAgedBrieSpec();
 
   Subject();
 
@@ -119,10 +119,10 @@ TEST_F(AgedBrie, OnSellDateNearMaxQuality) {
   HasQualityOf(50);
 }
 
-TEST_F(AgedBrie, OnSellDateWithMaxQuality) {
+TEST_F(AgedBrieSpec, OnSellDateWithMaxQuality) {
   initialSellIn = 0;
   initialQuality = 50;
-  MakeAgedBrie();
+  MakeAgedBrieSpec();
 
   Subject();
 
@@ -130,9 +130,9 @@ TEST_F(AgedBrie, OnSellDateWithMaxQuality) {
   HasQualityOf(50);
 }
 
-TEST_F(AgedBrie, AfterSellDate) {
+TEST_F(AgedBrieSpec, AfterSellDate) {
   initialSellIn = -10;
-  MakeAgedBrie();
+  MakeAgedBrieSpec();
 
   Subject();
 
@@ -140,10 +140,10 @@ TEST_F(AgedBrie, AfterSellDate) {
   HasQualityOf(initialQuality + 2);
 }
 
-TEST_F(AgedBrie, AfterSellDateWithMaxQuality) {
+TEST_F(AgedBrieSpec, AfterSellDateWithMaxQuality) {
   initialSellIn = -10;
   initialQuality = 50;
-  MakeAgedBrie();
+  MakeAgedBrieSpec();
 
   Subject();
 
@@ -151,20 +151,20 @@ TEST_F(AgedBrie, AfterSellDateWithMaxQuality) {
   HasQualityOf(50);
 }
 
-class Sulfuras : public ItemFixture
+class SulfurasSpecs : public ItemFixture
 {
 public:
-  Sulfuras() { initialQuality = 80; }
+  SulfurasSpecs() { initialQuality = 80; }
 
-  void MakeSulfuras() { MakeItem("Sulfuras, Hand of Ragnaros"); }
+  void MakeSulfurasSpecs() { MakeItem("SulfurasSpecs, Hand of Ragnaros"); }
 
   void HasNoSellInDecrease() {
-    ASSERT_THAT(gildedRose.getItem(0).sellIn, Eq(initialSellIn));
+    ASSERT_THAT(gildedRose.getItem(0)->sellIn, Eq(initialSellIn));
   }
 };
 
-TEST_F(Sulfuras, BeforeSellDate) {
-  MakeSulfuras();
+TEST_F(SulfurasSpecs, BeforeSellDate) {
+  MakeSulfurasSpecs();
 
   Subject();
 
@@ -172,9 +172,9 @@ TEST_F(Sulfuras, BeforeSellDate) {
   HasQualityOf(initialQuality);
 }
 
-TEST_F(Sulfuras, OnSellDate) {
+TEST_F(SulfurasSpecs, OnSellDate) {
   initialSellIn = 0;
-  MakeSulfuras();
+  MakeSulfurasSpecs();
 
   Subject();
 
@@ -182,9 +182,9 @@ TEST_F(Sulfuras, OnSellDate) {
   HasQualityOf(initialQuality);
 }
 
-TEST_F(Sulfuras, AfterSellDate) {
+TEST_F(SulfurasSpecs, AfterSellDate) {
   initialSellIn = -10;
-  MakeSulfuras();
+  MakeSulfurasSpecs();
 
   Subject();
 
@@ -192,15 +192,15 @@ TEST_F(Sulfuras, AfterSellDate) {
   HasQualityOf(initialQuality);
 }
 
-class BackstagePass : public ItemFixture
+class BackstagePassSpec : public ItemFixture
 {
 public:
-  void MakeBackstagePass() { MakeItem("Backstage passes to a TAFKAL80ETC concert"); }
+  void MakeBackstagePassSpec() { MakeItem("Backstage passes to a TAFKAL80ETC concert"); }
 };
 
-TEST_F(BackstagePass, LongBeforeSellDate) {
+TEST_F(BackstagePassSpec, LongBeforeSellDate) {
   initialSellIn = 11;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -208,10 +208,10 @@ TEST_F(BackstagePass, LongBeforeSellDate) {
   HasQualityOf(initialQuality + 1);
 }
 
-TEST_F(BackstagePass, LongBeforeSellDateAtMaxQuality) {
+TEST_F(BackstagePassSpec, LongBeforeSellDateAtMaxQuality) {
   initialSellIn = 11;
   initialQuality = 50;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -219,9 +219,9 @@ TEST_F(BackstagePass, LongBeforeSellDateAtMaxQuality) {
   HasQualityOf(initialQuality);
 }
 
-TEST_F(BackstagePass, MediumCloseToSellDateUpperBound) {
+TEST_F(BackstagePassSpec, MediumCloseToSellDateUpperBound) {
   initialSellIn = 10;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -229,10 +229,10 @@ TEST_F(BackstagePass, MediumCloseToSellDateUpperBound) {
   HasQualityOf(initialQuality + 2);
 }
 
-TEST_F(BackstagePass, MediumCloseToSellDateAtMaxQualityUpperBound) {
+TEST_F(BackstagePassSpec, MediumCloseToSellDateAtMaxQualityUpperBound) {
   initialSellIn = 10;
   initialQuality = 50;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -240,9 +240,9 @@ TEST_F(BackstagePass, MediumCloseToSellDateAtMaxQualityUpperBound) {
   HasQualityOf(initialQuality);
 }
 
-TEST_F(BackstagePass, MediumCloseToSellDateLowerBound) {
+TEST_F(BackstagePassSpec, MediumCloseToSellDateLowerBound) {
   initialSellIn = 6;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -250,10 +250,10 @@ TEST_F(BackstagePass, MediumCloseToSellDateLowerBound) {
   HasQualityOf(initialQuality + 2);
 }
 
-TEST_F(BackstagePass, MediumCloseToSellDateAtMaxQualityLowerBound) {
+TEST_F(BackstagePassSpec, MediumCloseToSellDateAtMaxQualityLowerBound) {
   initialSellIn = 6;
   initialQuality = 50;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -261,9 +261,9 @@ TEST_F(BackstagePass, MediumCloseToSellDateAtMaxQualityLowerBound) {
   HasQualityOf(initialQuality);
 }
 
-TEST_F(BackstagePass, VeryCloseToSellDateUpperBound) {
+TEST_F(BackstagePassSpec, VeryCloseToSellDateUpperBound) {
   initialSellIn = 5;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -271,10 +271,10 @@ TEST_F(BackstagePass, VeryCloseToSellDateUpperBound) {
   HasQualityOf(initialQuality + 3);
 }
 
-TEST_F(BackstagePass, VeryCloseToSellDateAtMaxQualityUpperBound) {
+TEST_F(BackstagePassSpec, VeryCloseToSellDateAtMaxQualityUpperBound) {
   initialSellIn = 5;
   initialQuality = 50;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -282,9 +282,9 @@ TEST_F(BackstagePass, VeryCloseToSellDateAtMaxQualityUpperBound) {
   HasQualityOf(initialQuality);
 }
 
-TEST_F(BackstagePass, VeryCloseToSellDateLowerBound) {
+TEST_F(BackstagePassSpec, VeryCloseToSellDateLowerBound) {
   initialSellIn = 1;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -292,10 +292,10 @@ TEST_F(BackstagePass, VeryCloseToSellDateLowerBound) {
   HasQualityOf(initialQuality + 3);
 }
 
-TEST_F(BackstagePass, VeryCloseToSellDateAtMaxQualityLowerBound) {
+TEST_F(BackstagePassSpec, VeryCloseToSellDateAtMaxQualityLowerBound) {
   initialSellIn = 1;
   initialQuality = 50;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -303,9 +303,9 @@ TEST_F(BackstagePass, VeryCloseToSellDateAtMaxQualityLowerBound) {
   HasQualityOf(initialQuality);
 }
 
-TEST_F(BackstagePass, OnSellDate) {
+TEST_F(BackstagePassSpec, OnSellDate) {
   initialSellIn = 0;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -313,9 +313,9 @@ TEST_F(BackstagePass, OnSellDate) {
   HasQualityOf(0);
 }
 
-TEST_F(BackstagePass, AfterSellDate) {
+TEST_F(BackstagePassSpec, AfterSellDate) {
   initialSellIn = -10;
-  MakeBackstagePass();
+  MakeBackstagePassSpec();
 
   Subject();
 
@@ -323,14 +323,14 @@ TEST_F(BackstagePass, AfterSellDate) {
   HasQualityOf(0);
 }
 
-class ConjuredMana : public ItemFixture
+class ConjuredManaSpec : public ItemFixture
 {
 public:
-  void MakeConjuredMana() { MakeItem("Conjured Mana Cake"); }
+  void MakeConjuredManaSpec() { MakeItem("Conjured Mana Cake"); }
 };
 
-TEST_F(ConjuredMana, DISABLED_BeforeSellDate) {
-  MakeConjuredMana();
+TEST_F(ConjuredManaSpec, DISABLED_BeforeSellDate) {
+  MakeConjuredManaSpec();
 
   Subject();
 
@@ -338,9 +338,9 @@ TEST_F(ConjuredMana, DISABLED_BeforeSellDate) {
   HasQualityOf(initialQuality - 2);
 }
 
-TEST_F(ConjuredMana, DISABLED_BeforeSellDateAtZeroQuality) {
+TEST_F(ConjuredManaSpec, DISABLED_BeforeSellDateAtZeroQuality) {
   initialQuality = 0;
-  MakeConjuredMana();
+  MakeConjuredManaSpec();
 
   Subject();
 
@@ -348,9 +348,9 @@ TEST_F(ConjuredMana, DISABLED_BeforeSellDateAtZeroQuality) {
   HasQualityOf(0);
 }
 
-TEST_F(ConjuredMana, DISABLED_OnSellDate) {
+TEST_F(ConjuredManaSpec, DISABLED_OnSellDate) {
   initialSellIn = 0;
-  MakeConjuredMana();
+  MakeConjuredManaSpec();
 
   Subject();
 
@@ -358,10 +358,10 @@ TEST_F(ConjuredMana, DISABLED_OnSellDate) {
   HasQualityOf(initialQuality - 4);
 }
 
-TEST_F(ConjuredMana, DISABLED_OnSellDateAtZeroQuality) {
+TEST_F(ConjuredManaSpec, DISABLED_OnSellDateAtZeroQuality) {
   initialSellIn = 0;
   initialQuality = 0;
-  MakeConjuredMana();
+  MakeConjuredManaSpec();
 
   Subject();
 

@@ -1,6 +1,14 @@
 #include "GildedRose.h"
 
-void Item::updateNormalItem()
+std::shared_ptr<Item> Item::CreateItem(const std::string& name, const int sellIn, const int quality)
+{
+  if (name == "NORMAL ITEM")
+    return std::make_shared<NormalItem>(sellIn, quality);
+
+  return std::make_shared<Item>(name, sellIn, quality);
+}
+
+void NormalItem::update()
 {
   if (quality == 0)
     return;
@@ -54,11 +62,7 @@ void Item::updateBackstagePass()
 
 void Item::update()
 {
-  if (name == "NORMAL ITEM") {
-    updateNormalItem();
-    return;
-  } 
-  else if (name == "Aged Brie") {
+  if (name == "Aged Brie") {
     updateAgedBrie();
     return;
   }
@@ -76,6 +80,6 @@ void GildedRose::updateQuality()
 {
     for (auto& item : _items)
     {
-      item.update();
+      item->update();
     }
 }
