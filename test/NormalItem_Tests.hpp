@@ -108,6 +108,47 @@ TEST_F(AgedBrie, OnSellDate) {
   HasQualityOf(initialQuality  + 2);
 }
 
+TEST_F(AgedBrie, OnSellDateNearMaxQuality) {
+  initialSellIn = 0;
+  initialQuality = 49;
+  MakeAgedBrie();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(50);
+}
+
+TEST_F(AgedBrie, OnSellDateWithMaxQuality) {
+  initialSellIn = 0;
+  initialQuality = 50;
+  MakeAgedBrie();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(50);
+}
+
+TEST_F(AgedBrie, AfterSellDate) {
+  initialSellIn = -10;
+  MakeAgedBrie();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(initialQuality + 2);
+}
+
+TEST_F(AgedBrie, AfterSellDateWithMaxQuality) {
+  initialSellIn = -10;
+  initialQuality = 50;
+  MakeAgedBrie();
+
+  Subject();
+
+  HasSellInDecreaseOf1();
+  HasQualityOf(50);
+}
 
 
-// REFACTOR gildedRose.updateQuality to Subject();
