@@ -6,6 +6,8 @@ std::shared_ptr<Item> Item::CreateItem(const std::string& name, const int sellIn
     return std::make_shared<NormalItem>(sellIn, quality);
   else if (name == "Aged Brie")
     return std::make_shared<AgedBrie>(sellIn, quality);
+  else if (name == "Backstage passes to a TAFKAL80ETC concert")
+    return std::make_shared<BackstagePass>(sellIn, quality);
 
   return std::make_shared<Item>(name, sellIn, quality);
 }
@@ -41,7 +43,7 @@ void Item::updateSulfuras()
   return;
 }
 
-void Item::updateBackstagePass()
+void BackstagePass::update()
 {
   sellIn -= 1;
 
@@ -66,10 +68,6 @@ void Item::update()
 {
   if (name == "Sulfuras, Hand of Ragnaros") {
     updateSulfuras();
-    return;
-  }
-  else if (name == "Backstage passes to a TAFKAL80ETC concert") {
-    updateBackstagePass();
     return;
   }
 }

@@ -38,6 +38,15 @@ public:
   void update() override;
 };
 
+class BackstagePass : public Item
+{
+public:
+  BackstagePass(const int sellIn, const int quality)
+    : Item("Backstage passes to a TAFKAL80ETC concert", sellIn, quality) {}
+
+  void update() override;
+};
+
 class GildedRose
 {
   std::vector<std::shared_ptr<Item> > _items;
