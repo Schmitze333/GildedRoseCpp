@@ -25,6 +25,8 @@ public:
   void HasQualityOf(const int newQuality) {
     ASSERT_THAT(gildedRose.getItem(0).quality, Eq(newQuality));
   }
+
+  void Subject() { gildedRose.updateQuality(); }
 };
 
 class NormalItem : public ItemFixture
@@ -42,7 +44,7 @@ public:
 TEST_F(NormalItem, BeforeSellDate) {
   MakeNormalItem();
 
-  gildedRose.updateQuality();
+  Subject();
 
   HasSellInDecreaseOf1();
   HasQualityOf(initialQuality - 1);
@@ -52,7 +54,7 @@ TEST_F(NormalItem, OnSellDate) {
   initialSellIn = 0;
   MakeNormalItem();
 
-  gildedRose.updateQuality();
+  Subject();
 
   HasSellInDecreaseOf1();
   HasQualityOf(initialQuality - 2);
@@ -62,7 +64,7 @@ TEST_F(NormalItem, AfterSellDate) {
   initialSellIn = -10;
   MakeNormalItem();
 
-  gildedRose.updateQuality();
+  Subject();
 
   HasSellInDecreaseOf1();
   HasQualityOf(initialQuality - 2);
@@ -72,7 +74,7 @@ TEST_F(NormalItem, OfZeroQuality) {
   initialQuality = 0;
   MakeNormalItem();
 
-  gildedRose.updateQuality();
+  Subject();
 
   HasQualityOf(0);
 }
@@ -80,7 +82,7 @@ TEST_F(NormalItem, OfZeroQuality) {
 TEST_F(AgedBrie, BeforeSellDate) {
   MakeAgedBrie();
 
-  gildedRose.updateQuality();
+  Subject();
 
   HasSellInDecreaseOf1();
   HasQualityOf(initialQuality + 1);
@@ -90,7 +92,7 @@ TEST_F(AgedBrie, BeforeSellDateWithMaxQuality) {
   initialQuality = 50;
   MakeAgedBrie();
 
-  gildedRose.updateQuality();
+  Subject();
 
   HasSellInDecreaseOf1();
   HasQualityOf(initialQuality);
@@ -100,7 +102,7 @@ TEST_F(AgedBrie, OnSellDate) {
   initialSellIn = 0;
   MakeAgedBrie();
 
-  gildedRose.updateQuality();
+  Subject();
 
   HasSellInDecreaseOf1();
   HasQualityOf(initialQuality  + 2);
