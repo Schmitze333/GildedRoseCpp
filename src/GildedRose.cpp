@@ -26,6 +26,11 @@ void GildedRose::updateAgedBrie(Item& item)
     item.quality += 1;
 }
 
+void GildedRose::updateSulfuras(Item& item)
+{
+  return;
+}
+
 void GildedRose::updateItem(Item& item)
 {
   if (item.name == "NORMAL ITEM") {
@@ -34,6 +39,10 @@ void GildedRose::updateItem(Item& item)
   } 
   else if (item.name == "Aged Brie") {
     updateAgedBrie(item);
+    return;
+  }
+  else if (item.name == "Sulfuras, Hand of Ragnaros") {
+    updateSulfuras(item);
     return;
   }
 

@@ -18,6 +18,7 @@ class GildedRose
   void updateItem(Item& item);
   void updateNormalItem(Item& item);
   void updateAgedBrie(Item& item);
+  void updateSulfuras(Item& item);
 
   public:
     GildedRose() {}
