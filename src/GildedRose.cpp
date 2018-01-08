@@ -1,73 +1,73 @@
 #include "GildedRose.h"
 
-void GildedRose::updateNormalItem(Item& item)
+void Item::updateNormalItem()
 {
-  if (item.quality == 0)
+  if (quality == 0)
     return;
 
-  item.quality -= 1;
+  quality -= 1;
 
-  if (item.sellIn <= 0)
-    item.quality -= 1;
+  if (sellIn <= 0)
+    quality -= 1;
 
-  item.sellIn -= 1;
+  sellIn -= 1;
 }
 
-void GildedRose::updateAgedBrie(Item& item)
+void Item::updateAgedBrie()
 {
   const int MaxQuality{ 50 };
 
-  item.sellIn -= 1;
-  if (item.quality == MaxQuality)
+  sellIn -= 1;
+  if (quality == MaxQuality)
     return;
 
-  item.quality += 1;
-  if (item.sellIn < 0 && item.quality < MaxQuality)
-    item.quality += 1;
+  quality += 1;
+  if (sellIn < 0 && quality < MaxQuality)
+    quality += 1;
 }
 
-void GildedRose::updateSulfuras(Item& item)
+void Item::updateSulfuras()
 {
   return;
 }
 
-void GildedRose::updateBackstagePass(Item& item)
+void Item::updateBackstagePass()
 {
-  item.sellIn -= 1;
+  sellIn -= 1;
 
-  if (item.quality == 50)
+  if (quality == 50)
     return;
 
-  if (item.sellIn < 0) {
-    item.quality = 0;
+  if (sellIn < 0) {
+    quality = 0;
     return;
   }
 
-  item.quality += 1;
+  quality += 1;
 
-  if (item.sellIn < 10)
-    item.quality += 1;
+  if (sellIn < 10)
+    quality += 1;
 
-  if (item.sellIn < 5)
-    item.quality += 1;
+  if (sellIn < 5)
+    quality += 1;
 }
 
-void GildedRose::updateItem(Item& item)
+void Item::update()
 {
-  if (item.name == "NORMAL ITEM") {
-    updateNormalItem(item);
+  if (name == "NORMAL ITEM") {
+    updateNormalItem();
     return;
   } 
-  else if (item.name == "Aged Brie") {
-    updateAgedBrie(item);
+  else if (name == "Aged Brie") {
+    updateAgedBrie();
     return;
   }
-  else if (item.name == "Sulfuras, Hand of Ragnaros") {
-    updateSulfuras(item);
+  else if (name == "Sulfuras, Hand of Ragnaros") {
+    updateSulfuras();
     return;
   }
-  else if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
-    updateBackstagePass(item);
+  else if (name == "Backstage passes to a TAFKAL80ETC concert") {
+    updateBackstagePass();
     return;
   }
 }
@@ -76,6 +76,6 @@ void GildedRose::updateQuality()
 {
     for (auto& item : _items)
     {
-      updateItem(item);
+      item.update();
     }
 }

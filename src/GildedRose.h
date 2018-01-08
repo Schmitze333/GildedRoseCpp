@@ -3,23 +3,24 @@
 
 class Item
 {
+  void updateNormalItem();
+  void updateAgedBrie();
+  void updateSulfuras();
+  void updateBackstagePass();
+
   public:
     std::string name;
     int sellIn;
     int quality;
     Item(std::string name, int sellIn, int quality) : name(name), sellIn(sellIn), quality(quality) 
     {}
+
+    void update();
 };
 
 class GildedRose
 {
   std::vector<Item> _items;
-
-  void updateItem(Item& item);
-  void updateNormalItem(Item& item);
-  void updateAgedBrie(Item& item);
-  void updateSulfuras(Item& item);
-  void updateBackstagePass(Item& item);
 
   public:
     GildedRose() {}
