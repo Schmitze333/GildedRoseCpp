@@ -29,6 +29,15 @@ public:
   void update() override;
 };
 
+class AgedBrie : public Item
+{
+public:
+  AgedBrie(const int sellIn, const int quality)
+    : Item("Aged Brie", sellIn, quality) {}
+
+  void update() override;
+};
+
 class GildedRose
 {
   std::vector<std::shared_ptr<Item> > _items;
