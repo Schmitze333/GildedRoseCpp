@@ -1,8 +1,6 @@
 #include "gmock/gmock.h"
 
-TEST(it, works) {
-  ASSERT_TRUE(false);
-}
+#include "NormalItem_Tests.hpp"
 
 int main(int argc, char** argv)
 {
