@@ -35,12 +35,6 @@ public:
   void MakeNormalItem() { MakeItem("NORMAL ITEM"); }
 };
 
-class AgedBrie : public ItemFixture
-{
-public:
-  void MakeAgedBrie() { MakeItem("Aged Brie"); }
-};
-
 TEST_F(NormalItem, BeforeSellDate) {
   MakeNormalItem();
 
@@ -78,6 +72,12 @@ TEST_F(NormalItem, OfZeroQuality) {
 
   HasQualityOf(0);
 }
+
+class AgedBrie : public ItemFixture
+{
+public:
+  void MakeAgedBrie() { MakeItem("Aged Brie"); }
+};
 
 TEST_F(AgedBrie, BeforeSellDate) {
   MakeAgedBrie();
@@ -151,4 +151,43 @@ TEST_F(AgedBrie, AfterSellDateWithMaxQuality) {
   HasQualityOf(50);
 }
 
+class Sulfuras : public ItemFixture
+{
+public:
+  Sulfuras() { initialQuality = 80; }
 
+  void MakeSulfuras() { MakeItem("Sulfuras, Hand of Ragnaros"); }
+
+  void HasNoSellInDecrease() {
+    ASSERT_THAT(gildedRose.getItem(0).sellIn, Eq(initialSellIn));
+  }
+};
+
+TEST_F(Sulfuras, BeforeSellDate) {
+  MakeSulfuras();
+
+  Subject();
+
+  HasNoSellInDecrease();
+  HasQualityOf(initialQuality);
+}
+
+TEST_F(Sulfuras, OnSellDate) {
+  initialSellIn = 0;
+  MakeSulfuras();
+
+  Subject();
+
+  HasNoSellInDecrease();
+  HasQualityOf(initialQuality);
+}
+
+TEST_F(Sulfuras, AfterSellDate) {
+  initialSellIn = -10;
+  MakeSulfuras();
+
+  Subject();
+
+  HasNoSellInDecrease();
+  HasQualityOf(initialQuality);
+}
