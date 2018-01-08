@@ -38,11 +38,6 @@ void AgedBrie::update()
     quality += 1;
 }
 
-void Item::updateSulfuras()
-{
-  return;
-}
-
 void BackstagePass::update()
 {
   sellIn -= 1;
@@ -62,14 +57,6 @@ void BackstagePass::update()
 
   if (sellIn < 5)
     quality += 1;
-}
-
-void Item::update()
-{
-  if (name == "Sulfuras, Hand of Ragnaros") {
-    updateSulfuras();
-    return;
-  }
 }
 
 void GildedRose::updateQuality() 

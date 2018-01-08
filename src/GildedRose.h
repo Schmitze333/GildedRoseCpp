@@ -4,11 +4,6 @@
 
 class Item
 {
-  void updateNormalItem();
-  void updateAgedBrie();
-  void updateSulfuras();
-  void updateBackstagePass();
-
 public:
   static std::shared_ptr<Item> CreateItem(const std::string& name, const int sellIn, const int quality);
   std::string name;
@@ -17,7 +12,7 @@ public:
   Item(std::string name, int sellIn, int quality) : name(name), sellIn(sellIn), quality(quality) 
   {}
 
-  virtual void update();
+  virtual void update() {};
 };
 
 class NormalItem : public Item
