@@ -31,8 +31,6 @@ void NormalItem::update()
 
 void AgedBrie::update()
 {
-  const int MaxQuality{ 50 };
-
   sellIn -= 1;
   if (quality == MaxQuality)
     return;
@@ -46,7 +44,7 @@ void BackstagePass::update()
 {
   sellIn -= 1;
 
-  if (quality == 50)
+  if (quality == MaxQuality)
     return;
 
   if (sellIn < 0) {
@@ -56,11 +54,10 @@ void BackstagePass::update()
 
   quality += 1;
 
-  if (sellIn < 10)
-    quality += 1;
-
-  if (sellIn < 5)
-    quality += 1;
+  for (auto t : _qualityThresholds) {
+    if (sellIn < t)
+      quality += 1;
+  }
 }
 
 void GildedRose::updateQuality() 

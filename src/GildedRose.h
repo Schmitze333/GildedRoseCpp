@@ -28,6 +28,8 @@ public:
 
 class AgedBrie : public Item
 {
+  const int MaxQuality{ 50 };
+
 public:
   static const std::string Name;
 
@@ -39,6 +41,9 @@ public:
 
 class BackstagePass : public Item
 {
+  const int MaxQuality{ 50 };
+  std::vector<int> _qualityThresholds = {5, 10};
+
 public:
   static const std::string Name;
 
