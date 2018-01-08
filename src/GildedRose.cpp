@@ -15,7 +15,15 @@ void GildedRose::updateNormalItem(Item& item)
 
 void GildedRose::updateAgedBrie(Item& item)
 {
-  return;
+  const int MaxQuality{ 50 };
+
+  item.sellIn -= 1;
+  if (item.quality == MaxQuality)
+    return;
+
+  item.quality += 1;
+  if (item.sellIn < 0 && item.quality < MaxQuality)
+    item.quality += 1;
 }
 
 void GildedRose::updateItem(Item& item)
@@ -23,7 +31,8 @@ void GildedRose::updateItem(Item& item)
   if (item.name == "NORMAL ITEM") {
     updateNormalItem(item);
     return;
-  } else if (item.name == "Aged Brie") {
+  } 
+  else if (item.name == "Aged Brie") {
     updateAgedBrie(item);
     return;
   }

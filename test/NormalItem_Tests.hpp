@@ -105,7 +105,7 @@ TEST_F(AgedBrie, OnSellDate) {
   Subject();
 
   HasSellInDecreaseOf1();
-  HasQualityOf(initialQuality  + 2);
+  HasQualityOf(initialQuality + 2);
 }
 
 TEST_F(AgedBrie, OnSellDateNearMaxQuality) {
