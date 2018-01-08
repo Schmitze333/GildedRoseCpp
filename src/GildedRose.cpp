@@ -1,7 +1,18 @@
 #include "GildedRose.h"
 
+void GildedRose::updateNormalItem(Item& item)
+{
+  item.sellIn -= 1;
+  item.quality -= 1;
+}
+
 void GildedRose::updateItem(Item& item)
 {
+  if (item.name == "NORMAL ITEM") {
+    updateNormalItem(item);
+    return;
+  }
+
   if (item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert")
   {
     if (item.quality > 0)

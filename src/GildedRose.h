@@ -16,6 +16,7 @@ class GildedRose
   std::vector<Item> _items;
 
   void updateItem(Item& item);
+  void updateNormalItem(Item& item);
 
   public:
     GildedRose() {}
