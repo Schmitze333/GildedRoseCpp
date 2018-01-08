@@ -10,7 +10,7 @@ public:
   int initialSellIn{ 5 };
   int initialQuality{ 10 };
 
-  void NormalItemWithSellInAndQuality() {
+  void MakeNormalItem() {
     gildedRose.addItem(Item("NORMAL ITEM", initialSellIn, initialQuality));
   }
 
@@ -28,7 +28,7 @@ public:
 };
 
 TEST_F(NormalItem, BeforeSellDate) {
-  NormalItemWithSellInAndQuality();
+  MakeNormalItem();
 
   gildedRose.updateQuality();
 
@@ -38,7 +38,7 @@ TEST_F(NormalItem, BeforeSellDate) {
 
 TEST_F(NormalItem, OnSellDate) {
   initialSellIn = 0;
-  NormalItemWithSellInAndQuality();
+  MakeNormalItem();
 
   gildedRose.updateQuality();
 
@@ -48,7 +48,7 @@ TEST_F(NormalItem, OnSellDate) {
 
 TEST_F(NormalItem, AfterSellDate) {
   initialSellIn = -10;
-  NormalItemWithSellInAndQuality();
+  MakeNormalItem();
 
   gildedRose.updateQuality();
 
@@ -58,7 +58,7 @@ TEST_F(NormalItem, AfterSellDate) {
 
 TEST_F(NormalItem, OfZeroQuality) {
   initialQuality = 0;
-  NormalItemWithSellInAndQuality();
+  MakeNormalItem();
 
   gildedRose.updateQuality();
 
