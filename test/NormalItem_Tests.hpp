@@ -329,7 +329,7 @@ public:
   void MakeConjuredMana() { MakeItem("Conjured Mana Cake"); }
 };
 
-TEST_F(ConjuredMana, BeforeSellDate) {
+TEST_F(ConjuredMana, DISABLED_BeforeSellDate) {
   MakeConjuredMana();
 
   Subject();
@@ -338,7 +338,7 @@ TEST_F(ConjuredMana, BeforeSellDate) {
   HasQualityOf(initialQuality - 2);
 }
 
-TEST_F(ConjuredMana, BeforeSellDateAtZeroQuality) {
+TEST_F(ConjuredMana, DISABLED_BeforeSellDateAtZeroQuality) {
   initialQuality = 0;
   MakeConjuredMana();
 
@@ -348,7 +348,7 @@ TEST_F(ConjuredMana, BeforeSellDateAtZeroQuality) {
   HasQualityOf(0);
 }
 
-TEST_F(ConjuredMana, OnSellDate) {
+TEST_F(ConjuredMana, DISABLED_OnSellDate) {
   initialSellIn = 0;
   MakeConjuredMana();
 
@@ -358,7 +358,7 @@ TEST_F(ConjuredMana, OnSellDate) {
   HasQualityOf(initialQuality - 4);
 }
 
-TEST_F(ConjuredMana, OnSellDateAtZeroQuality) {
+TEST_F(ConjuredMana, DISABLED_OnSellDateAtZeroQuality) {
   initialSellIn = 0;
   initialQuality = 0;
   MakeConjuredMana();
