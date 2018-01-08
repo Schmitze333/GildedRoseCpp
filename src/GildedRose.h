@@ -6,10 +6,10 @@ class Item
 {
 public:
   static std::shared_ptr<Item> CreateItem(const std::string& name, const int sellIn, const int quality);
-  std::string name;
+  std::string name{ "" };
   int sellIn;
   int quality;
-  Item(std::string name, int sellIn, int quality) : name(name), sellIn(sellIn), quality(quality) 
+  Item(int sellIn, int quality) : sellIn(sellIn), quality(quality) 
   {}
 
   virtual void update() {};
@@ -18,8 +18,10 @@ public:
 class NormalItem : public Item
 {
 public:
+  static const std::string Name;
+
   NormalItem(const int sellIn, const int quality)
-    : Item("NORMAL ITEM", sellIn, quality) {}
+    : Item(sellIn, quality) { name = Name; }
 
   void update() override;
 };
@@ -27,8 +29,10 @@ public:
 class AgedBrie : public Item
 {
 public:
+  static const std::string Name;
+
   AgedBrie(const int sellIn, const int quality)
-    : Item("Aged Brie", sellIn, quality) {}
+    : Item(sellIn, quality) { name = Name; }
 
   void update() override;
 };
@@ -36,8 +40,10 @@ public:
 class BackstagePass : public Item
 {
 public:
+  static const std::string Name;
+
   BackstagePass(const int sellIn, const int quality)
-    : Item("Backstage passes to a TAFKAL80ETC concert", sellIn, quality) {}
+    : Item(sellIn, quality) {}
 
   void update() override;
 };
