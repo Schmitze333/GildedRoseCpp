@@ -53,6 +53,17 @@ public:
   void update() override;
 };
 
+class ConjuredMana : public Item
+{
+public:
+  static const std::string Name;
+
+  ConjuredMana(const int sellIn, const int quality)
+    : Item(sellIn, quality) { name = Name; }
+
+  void update() override;
+};
+
 class GildedRose
 {
   std::vector<std::shared_ptr<Item> > _items;

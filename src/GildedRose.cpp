@@ -3,6 +3,7 @@
 const std::string BackstagePass::Name = "Backstage passes to a TAFKAL80ETC concert";
 const std::string AgedBrie::Name = "Aged Brie"; 
 const std::string NormalItem::Name = "NORMAL ITEM"; 
+const std::string ConjuredMana::Name = "Conjured Mana Cake";
 
 std::shared_ptr<Item> Item::CreateItem(const std::string& name, const int sellIn, const int quality)
 {
@@ -12,6 +13,8 @@ std::shared_ptr<Item> Item::CreateItem(const std::string& name, const int sellIn
     return std::make_shared<AgedBrie>(sellIn, quality);
   else if (name == BackstagePass::Name)
     return std::make_shared<BackstagePass>(sellIn, quality);
+  else if (name == ConjuredMana::Name)
+    return std::make_shared<ConjuredMana>(sellIn, quality);
 
   return std::make_shared<Item>(sellIn, quality);
 }
@@ -58,6 +61,19 @@ void BackstagePass::update()
     if (sellIn < t)
       quality += 1;
   }
+}
+
+void ConjuredMana::update()
+{
+  sellIn -= 1;
+
+  if (quality == 0)
+    return;
+
+  quality -= 2;
+
+  if (sellIn < 0)
+    quality -= 2;
 }
 
 void GildedRose::updateQuality() 
