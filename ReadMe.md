@@ -1,4 +1,4 @@
-#Gilded Rose - Refactoring Kata#
+# Gilded Rose - Refactoring Kata
 
 All versions of the Gilded Rose Kata in Cpp I found on GitHub come without
 a complete set of test cases. So I completed the test cases to provide a good
