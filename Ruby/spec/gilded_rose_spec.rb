@@ -13,7 +13,9 @@ RSpec.describe GildedRose do
   before { gilded_rose.update_quality }
 
   context 'with normal item' do
-    let(:item) { Item.new('Normal Item', initial_sell_in, initial_quality) }
+    let(:item) do
+      GildedRose::Item.new('Normal Item', initial_sell_in, initial_quality)
+    end
 
     context 'when before sell date' do
       it 'has a sell in decrease of 1' do
@@ -59,7 +61,9 @@ RSpec.describe GildedRose do
   end
 
   context 'with Aged Brie' do
-    let(:item) { Item.new('Aged Brie', initial_sell_in, initial_quality) }
+    let(:item) do
+      GildedRose::Item.new('Aged Brie', initial_sell_in, initial_quality)
+    end
 
     context 'when before sell date' do
       it 'has a sell in decrease of 1' do
@@ -138,7 +142,11 @@ RSpec.describe GildedRose do
   context 'with Sulfuras' do
     let(:initial_quality) { 80 }
     let(:item) do
-      Item.new('Sulfuras, Hand of Ragnaros', initial_sell_in, initial_quality)
+      GildedRose::Item.new(
+        'Sulfuras, Hand of Ragnaros',
+        initial_sell_in,
+        initial_quality
+      )
     end
 
     context 'when before sell date' do
@@ -178,7 +186,7 @@ RSpec.describe GildedRose do
 
   context 'with Backstage Pass' do
     let(:item) do
-      Item.new(
+      GildedRose::Item.new(
         'Backstage passes to a TAFKAL80ETC concert',
         initial_sell_in,
         initial_quality
@@ -332,7 +340,11 @@ RSpec.describe GildedRose do
 
   xcontext 'with Conjured Mana Cake', pending: 'new feature request' do
     let(:item) do
-      Item.new('Conjured Mana Cake', initial_sell_in, initial_quality)
+      GildedRose::Item.new(
+        'Conjured Mana Cake',
+        initial_sell_in,
+        initial_quality
+      )
     end
 
     context 'when before sell date' do
